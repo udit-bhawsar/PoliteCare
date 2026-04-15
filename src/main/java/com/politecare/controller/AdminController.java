@@ -9,12 +9,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
+import java.util.Base64;
 
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
 
-	private static final String UPLOAD_PATH = "/data/uploads/";
     @Autowired private ProductRepository productRepo;
     @Autowired private OrderRepository orderRepo;
 
@@ -39,30 +39,13 @@ public class AdminController {
                              @RequestParam("image") MultipartFile file) throws Exception {
         
         Product p = new Product();
-        p.setName(name); 
-        p.setCategory(category); 
-        p.setPrice(price);
-        p.setStockQuantity(stock); 
-        p.setDescription(desc);
-
-        // Agar file empty nahi hai toh use folder mein save karo
+        p.setName(name); p.setCategory(category); p.setPrice(price);
+        p.setStockQuantity(stock); p.setDescription(desc);
+        
         if (!file.isEmpty()) {
-            // 1. Check karo ki folder hai ya nahi, nahi toh naya banao
-            File dir = new File(UPLOAD_PATH);
-            if (!dir.exists()) {
-                dir.mkdirs(); 
-            }
-
-            // 2. Unique file name banao (Timestamp + asli name)
-            String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
-            
-            // 3. File ko PC ki hard drive (C:/politecare/uploads/) par save karo
-            File destinationFile = new File(UPLOAD_PATH + fileName);
-            file.transferTo(destinationFile);
-
-            // 4. DB mein Base64 ki jagah sirf "FileName" save kardo
-            // Note: Aapke Product.java mein 'imageName' naam ka field hona chahiye
-            p.setImageName(fileName); 
+            // Image bytes ko Base64 text me convert kiya aur DB me dalo
+            String base64Image = Base64.getEncoder().encodeToString(file.getBytes());
+            p.setImageBase64(base64Image);
         }
 
         productRepo.save(p);

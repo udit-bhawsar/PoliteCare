@@ -98,15 +98,16 @@
                                 <td class="ps-4">
                                     <div class="d-flex align-items-center">
                                         <div class="rounded border p-1 me-3 bg-white" style="width: 40px; height: 40px;">
-                                           <c:if test="${not empty p.imageName}">
-                                                <img src="${pageContext.request.contextPath}/product-images/${p.imageName}" 
-                                                     class="w-100 h-100" style="object-fit: cover;">
-                                            </c:if>
-                                            <c:if test="${empty p.imageName}">
-                                                 <div class="w-100 h-100 bg-light d-flex align-items-center justify-content-center">
-                                                     <i class="fas fa-pills text-muted small"></i>
-                                                 </div>
-                                            </c:if>
+                         <c:if test="${not empty p.imageBase64}">
+                             <img src="data:image/jpeg;base64,${p.imageBase64}" style="max-height: 100%; max-width: 100%; object-fit: contain;">
+                         </c:if>
+                         <c:if test="${empty p.imageBase64}">
+                             <div class="d-flex align-items-center justify-content-center h-100 bg-light rounded">
+                                <i class="fas fa-prescription-bottle-alt fa-3x text-secondary opacity-25"></i>
+                             </div>
+                         </c:if> 
+                 
+
                                         </div>
                                         <div>
                                             <div class="fw-bold text-dark">${p.name}</div>

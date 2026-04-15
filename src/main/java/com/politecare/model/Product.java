@@ -12,14 +12,13 @@ public class Product {
     private String description;
     private Double price;
     private Integer stockQuantity;
-    private String imageName;
+ // imageName hatakar base64 wapas laayein
+    @Lob
+    @Column(columnDefinition = "MEDIUMTEXT")
+    private String imageBase64;
 
-    public String getImageName() {
-		return imageName;
-	}
-	public void setImageName(String imageName) {
-		this.imageName = imageName;
-	}
+    public String getImageBase64() { return imageBase64; }
+    public void setImageBase64(String imageBase64) { this.imageBase64 = imageBase64; }
 	// Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }

@@ -75,19 +75,17 @@
                         <span class="badge bg-light text-secondary border">Rx</span>
                     </div>
                     
-                    <!-- IMAGE AREA - UPDATED TO DISK PATH -->
                     <div class="text-center p-3" style="height: 180px;">
-                         <c:if test="${not empty p.imageName}">
-                             <!-- Physical path mapping to C: Drive -->
-                             <img src="${pageContext.request.contextPath}/product-images/${p.imageName}" 
-                                  style="max-height: 100%; max-width: 100%; object-fit: contain;">
+                         <c:if test="${not empty p.imageBase64}">
+                             <img src="data:image/jpeg;base64,${p.imageBase64}" style="max-height: 100%; max-width: 100%; object-fit: contain;">
                          </c:if>
-                         <c:if test="${empty p.imageName}">
+                         <c:if test="${empty p.imageBase64}">
                              <div class="d-flex align-items-center justify-content-center h-100 bg-light rounded">
                                 <i class="fas fa-prescription-bottle-alt fa-3x text-secondary opacity-25"></i>
                              </div>
                          </c:if> 
                     </div>
+
 
                     <div class="card-body d-flex flex-column">
                         <small class="text-info fw-bold" style="font-size: 0.7rem;">${p.category}</small>
